@@ -9,7 +9,12 @@ namespace noximo;
         body {
             background-color: #34495e;
             color: white;
-            font-family: sans-serif;
+            font-family: monospace;
+            font-size: 16px;
+        }
+
+        b {
+            color: lightskyblue;
         }
 
         h1 {
@@ -29,9 +34,18 @@ namespace noximo;
             color: yellow;
         }
 
+        table {
+            width: 100%;
+            font-size: 12px;
+        }
+
         th {
             text-align: left;
             padding: 25px 0 10px 0;
+        }
+
+        td {
+            padding: 5px;
         }
 
         .section {
@@ -40,12 +54,11 @@ namespace noximo;
 
         .line {
             text-align: right;
-            vertical-align: top;
-            padding: 1px 10px 0 0px;
+            vertical-align: middle;
         }
 
-        tr:nth-child(even) {
-            background: #475a73
+        .error:nth-child(odd) {
+            background: #374d63
         }
 
         #thanks {
@@ -71,7 +84,7 @@ namespace noximo;
             </tr>
             </thead>
             <?php foreach ($data[FileOutput::UNKNOWN] as $error): ?>
-                <tr>
+                <tr class="error">
                     <td>
                         <?= $error ?>
                     </td>
@@ -91,7 +104,7 @@ namespace noximo;
                 </tr>
                 </thead>
                 <?php foreach ($errors as $error): ?>
-                    <tr>
+                    <tr class="error">
                         <td class="line">
                             <a href='<?= $error[FileOutput::LINK] ?>'><?= $error[FileOutput::LINE] ?></a>
                         </td>

@@ -53,10 +53,7 @@ class FileOutput implements ErrorFormatter
         } catch (RegexpException $e) {
         }
 
-        $outputFile = realpath($outputFile);
-        if ($outputFile !== false) {
-            $this->outputFile = $outputFile;
-        }
+        $this->outputFile = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $outputFile);
 
         $customTemplateFile = $customTemplate !== null ? realpath($customTemplate) : false;
         if ($customTemplateFile !== false) {
@@ -72,17 +69,14 @@ class FileOutput implements ErrorFormatter
      */
     public function formatErrors(AnalysisResult $analysisResult, OutputStyle $style): int
     {
-        try {
-            if ($this->outputFile === null) {
-                throw new IOException('Real path of file could not be resolved');
-            }
-            $this->generateFile($analysisResult);
-            $style->writeln('Note: Analysis outputted into file ' . $this->outputFile . '.');
-        } catch (IOException $e) {
-            $style->error('Analysis could not be outputted into file. ' . $e->getMessage());
-        }
         if ($this->defaultFormatter !== null) {
             $this->defaultFormatter->formatErrors($analysisResult, $style);
+        }
+        try {
+            $this->generateFile($analysisResult);
+            $style->writeln('Note: Analysis outputted into file ' . realpath($this->outputFile) . '.');
+        } catch (IOException $e) {
+            $style->error('Analysis could not be outputted into file. ' . $e->getMessage());
         }
 
         return $analysisResult->hasErrors() ? 1 : 0;
