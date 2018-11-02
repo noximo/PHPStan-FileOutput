@@ -1,5 +1,5 @@
 # PHPStan FileOutput
-An error formatter for PHPStan that exports analysis result into HTML file
+An error formatter for [PHPStan](https://github.com/phpstan/phpstan) that exports analysis result into HTML file
 
 ## Installation
 ```
