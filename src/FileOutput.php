@@ -124,7 +124,11 @@ class FileOutput implements ErrorFormatter
                 ];
             }
 
-            ksort($output);
+            foreach ($output[self::FILES] as &$file) {
+                usort($file, function ($a, $b) {
+                    return -1 * ($a[self::LINE] <=> $b[self::LINE]);
+                });
+            }
 
             FileSystem::write($this->outputFile, $this->getTable($output));
         }

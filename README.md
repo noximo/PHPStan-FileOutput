@@ -8,17 +8,30 @@ composer require noximo/phpstan-fileoutput
 
 ## Usage
 Edit or create your phpstan.neon file and register new error formatter. 
-First parameter is mandatory and specifies path to file in which data will be outputed.
+First two parameters are mandatory.
+
+- First specifies path to file in which data will be outputed.
+
+- Second specifies which other formatter will be used with FileOutput formatter running silently in the background. You can set it to null if you wish to only work with FileOutput-generated files.
 ```
 services:
 	errorFormatter.fileoutput:  # Can be any name after errorFormatter
-		class: noximo\FileOutput(./example/phpstan.html) 
+		class: noximo\FileOutput(./example/phpstan.html, null) 
 ```
 
-You can add second parameter to use one of the other formatters as well, so console output can be unaffected:
+You can (and should) specify second parameter to use one of the other formatters as well, so console output will be unaffected:
 ```
 class: noximo\FileOutput(./example/phpstan.html, @errorFormatter.raw) 
 ```
+At the time of writing of this readme these formatters were available by default in PHPStan:
+- ```errorFormatter.checkstyle```,  
+- ```errorFormatter.json```, 
+- ```errorFormatter.prettyJson```, 
+- ```errorFormatter.raw```, 
+- ```errorFormatter.table```
+
+_Check [PHPStan repository](https://github.com/phpstan/phpstan) for possible updates._ 
+
 Third parameter sets custom output template. 
 ```
 class: noximo\FileOutput(./example/phpstan.html, null, ./tests/alternative_table.phtml) 
