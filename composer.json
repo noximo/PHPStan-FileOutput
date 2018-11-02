@@ -1,0 +1,42 @@
+{
+  "name": "noximo/phpstan-fileoutput",
+  "description": "An error formatter for PHPStan that exports analysis result into HTML file",
+  "keywords": [
+    "PHPStan",
+    "Error formatter",
+    "File output"
+  ],
+  "type": "library",
+  "authors": [
+    {
+      "name": "Tomas Pospisil",
+      "email": "pospisilt@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "noximo\\": [
+        "src/",
+        "tests/"
+      ]
+    }
+  },
+  "require": {
+    "php": "^7.1",
+    "phpstan/phpstan": "^0.10"
+  },
+  "license": "MIT",
+  "require-dev": {
+    "symplify/easy-coding-standard": "^5.1"
+  },
+  "scripts": {
+    "check": [
+      "@check-cs",
+      "@phpstan"
+    ],
+    "check-cs": "ecs check src",
+    "fix-cs": "ecs check src --fix",
+    "phpstan": "phpstan analyse src --level max --error-format=fileoutput",
+    "phpstan-test": "phpstan analyse src tests --level max --error-format=fileoutput --no-progress"
+  }
+}

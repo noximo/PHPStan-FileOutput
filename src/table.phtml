@@ -1,0 +1,113 @@
+<?php
+declare(strict_types=1);
+
+namespace noximo;
+?>
+<html lang="">
+<head>
+    <style>
+        body {
+            background-color: #34495e;
+            color: white;
+            font-family: sans-serif;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin: 5px;
+        }
+
+        .time {
+            font-style: italic;
+            color: white;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        a {
+            color: yellow;
+        }
+
+        th {
+            text-align: left;
+            padding: 25px 0 10px 0;
+        }
+
+        .section {
+            font-size: 1.4em;
+        }
+
+        .line {
+            text-align: right;
+            vertical-align: top;
+            padding: 1px 10px 0 0px;
+        }
+
+        tr:nth-child(even) {
+            background: #475a73
+        }
+
+        #thanks {
+            margin-top: 50px;
+            font-size: 0.65em;
+            text-align: center;
+        }
+    </style>
+    <title>PHPStan analysis result</title>
+</head>
+<h1>PHPStan analysis result</h1>
+<div class="time"><?= date('Y-m-d H:i:s') ?></div>
+
+
+<div>
+    <table>
+        <?php if (count($data[FileOutput::UNKNOWN]) > 0): ?>
+            <thead>
+            <tr>
+                <th colspan="2" class="section">
+                    Errors without specific file: <?= count($data[FileOutput::UNKNOWN]) ?>
+                </th>
+            </tr>
+            </thead>
+            <?php foreach ($data[FileOutput::UNKNOWN] as $error): ?>
+                <tr>
+                    <td>
+                        <?= $error ?>
+                    </td>
+                </tr>
+            <?php endforeach ?>
+        <?php endif ?>
+        <?php if (count($data[FileOutput::FILES]) > 0): ?>
+            <thead>
+            <tr>
+                <th colspan="2" class="section">Files with errors: <?= count($data[FileOutput::FILES]) ?></th>
+            </tr>
+            </thead>
+            <?php foreach ($data[FileOutput::FILES] as $filename => $errors): ?>
+                <thead>
+                <tr>
+                    <th colspan="2"><?= $filename . ' (' . count($errors) . "\xC3\x97)" ?></th>
+                </tr>
+                </thead>
+                <?php foreach ($errors as $error): ?>
+                    <tr>
+                        <td class="line">
+                            <a href='<?= $error[FileOutput::LINK] ?>'><?= $error[FileOutput::LINE] ?></a>
+                        </td>
+                        <td>
+                            <?= $error[FileOutput::ERROR] ?>
+                        </td>
+                    </tr>
+                <?php endforeach ?>
+            <?php endforeach ?>
+        <?php endif ?>
+
+    </table>
+    <div id="thanks">
+        This file was made thanks to
+        <a href="https://github.com/phpstan/phpstan">PHPStan</a> and was outputted by
+        <a href="https://github.com/noximo/PHPStan-FileOutput">PHPStan FileOutput</a>
+    </div>
+</div>
+</html>

@@ -1,0 +1,8 @@
+imports:
+  - { resource: '%vendor_dir%/symplify/easy-coding-standard/config/psr2.yml' }
+  - { resource: 'vendor/symplify/easy-coding-standard/config/common.yml' }
+  - { resource: 'vendor/symplify/easy-coding-standard/config/clean-code.yml' }
+  - { resource: 'vendor/symplify/easy-coding-standard/config/php71.yml' }
+parameters:
+  exclude_checkers:
+  -  PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer

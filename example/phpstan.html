@@ -1,0 +1,99 @@
+<html lang="">
+<head>
+    <style>
+        body {
+            background-color: #34495e;
+            color: white;
+            font-family: sans-serif;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin: 5px;
+        }
+
+        .time {
+            font-style: italic;
+            color: white;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        a {
+            color: yellow;
+        }
+
+        th {
+            text-align: left;
+            padding: 25px 0 10px 0;
+        }
+
+        .section {
+            font-size: 1.4em;
+        }
+
+        .line {
+            text-align: right;
+            vertical-align: top;
+            padding: 1px 10px 0 0px;
+        }
+
+        tr:nth-child(even) {
+            background: #475a73
+        }
+
+        #thanks {
+            margin-top: 50px;
+            font-size: 0.65em;
+            text-align: center;
+        }
+    </style>
+    <title>PHPStan analysis result</title>
+</head>
+<h1>PHPStan analysis result</h1>
+<div class="time">2018-11-02 01:16:58</div>
+
+
+<div>
+    <table>
+                            <thead>
+            <tr>
+                <th colspan="2" class="section">Files with errors: 1</th>
+            </tr>
+            </thead>
+                            <thead>
+                <tr>
+                    <th colspan="2">C:\wamp64\www\PHPStanFileOutput\tests\MessedUpClass.php (3×)</th>
+                </tr>
+                </thead>
+                                    <tr>
+                        <td class="line">
+                            <a href='editor://open/?file=C:\wamp64\www\PHPStanFileOutput\tests\MessedUpClass.php&line=23'>23</a>
+                        </td>
+                        <td>
+                            PHPDoc tag <b>@param</b> for parameter <b>$problem</b> with type <b>string</b> is incompatible with native type <b>int</b>                        </td>
+                    </tr>
+                                    <tr>
+                        <td class="line">
+                            <a href='editor://open/?file=C:\wamp64\www\PHPStanFileOutput\tests\MessedUpClass.php&line=23'>23</a>
+                        </td>
+                        <td>
+                            PHPDoc tag <b>@return</b> with type <b>int</b> is incompatible with native type <b>string</b>                        </td>
+                    </tr>
+                                    <tr>
+                        <td class="line">
+                            <a href='editor://open/?file=C:\wamp64\www\PHPStanFileOutput\tests\MessedUpClass.php&line=25'>25</a>
+                        </td>
+                        <td>
+                            Method <b>noximo\MessedUpClass::doSOmething()</b> should return <b>string</b> but returns <b>int.</b>                        </td>
+                    </tr>
+                                    
+    </table>
+    <div id="thanks">
+        This file was made thanks to
+        <a href="https://github.com/phpstan/phpstan">PHPStan</a> and was outputted by
+        <a href="https://github.com/noximo/PHPStan-FileOutput">PHPStan FileOutput</a>
+    </div>
+</div>
+</html>
