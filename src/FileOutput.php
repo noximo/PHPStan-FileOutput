@@ -10,6 +10,7 @@ use Nette\Utils\Strings;
 use PHPStan\Command\AnalysisResult;
 use PHPStan\Command\ErrorFormatter\ErrorFormatter;
 use Symfony\Component\Console\Style\OutputStyle;
+use Webmozart\PathUtil\Path;
 
 class FileOutput implements ErrorFormatter
 {
@@ -43,23 +44,24 @@ class FileOutput implements ErrorFormatter
 
     /**
      * FileOutput constructor.
+     * @throws \Safe\Exceptions\DirException
      */
     public function __construct(string $outputFile, ?ErrorFormatter $defaultFormatterClass = null, ?string $customTemplate = null)
     {
         $this->defaultFormatter = $defaultFormatterClass;
-
+        $cwd = \Safe\getcwd() . DIRECTORY_SEPARATOR;
         try {
-            $outputFile = Strings::replace($outputFile, '{time}', (string) time());
+            $outputFile = Strings::replace($outputFile, '{time}', (string)time());
         } catch (RegexpException $e) {
         }
 
-        $this->outputFile = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $outputFile);
+        $this->outputFile = Path::canonicalize($cwd . $outputFile);
 
-        $customTemplateFile = $customTemplate !== null ? realpath($customTemplate) : false;
-        if ($customTemplateFile !== false) {
+        $customTemplateFile = $customTemplate !== null ? Path::canonicalize($cwd . $customTemplate) : null;
+        if ($customTemplateFile !== null) {
             $this->template = $customTemplateFile;
         } else {
-            $this->template = __DIR__ . '/table.phtml';
+            $this->template = __DIR__ . DIRECTORY_SEPARATOR . 'table.phtml';
         }
     }
 
@@ -74,7 +76,7 @@ class FileOutput implements ErrorFormatter
         }
         try {
             $this->generateFile($analysisResult);
-            $style->writeln('Note: Analysis outputted into file ' . realpath($this->outputFile) . '.');
+            $style->writeln('Note: Analysis outputted into file ' . $this->outputFile . '.');
         } catch (IOException $e) {
             $style->error('Analysis could not be outputted into file. ' . $e->getMessage());
         }
@@ -123,9 +125,11 @@ class FileOutput implements ErrorFormatter
                     return -1 * ($a[self::LINE] <=> $b[self::LINE]);
                 });
             }
+            unset($file);
 
-            FileSystem::write($this->outputFile, $this->getTable($output));
         }
+
+        FileSystem::write($this->outputFile, $this->getTable($output));
     }
 
     private function formatMessage(string $message): string
