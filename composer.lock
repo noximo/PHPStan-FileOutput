@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "313eee0ca9cf27c5eaa5ab70806aea04",
+    "content-hash": "e0b6f1cc268e8c73c2e5d3e7c4356d24",
     "packages": [
         {
             "name": "composer/xdebug-handler",
@@ -1657,6 +1657,56 @@
             ],
             "description": "A tool to automatically fix PHP code style",
             "time": "2019-01-04T18:29:47+00:00"
+        },
+        {
+            "name": "noximo/easycodingstandard-fileoutput",
+            "version": "v0.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/noximo/easycodingstandard-fileoutput.git",
+                "reference": "277e53bd98c425671775c1ba4fdc20e372a72f51"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/noximo/easycodingstandard-fileoutput/zipball/277e53bd98c425671775c1ba4fdc20e372a72f51",
+                "reference": "277e53bd98c425671775c1ba4fdc20e372a72f51",
+                "shasum": ""
+            },
+            "require": {
+                "nette/utils": "2.5.*",
+                "php": "^7.1",
+                "symplify/easy-coding-standard": "^5.3"
+            },
+            "require-dev": {
+                "noximo/dbgr": "dev-master",
+                "phpstan/phpstan": "^0.10"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "noximo\\EasyCodingStandardFileoutput\\": [
+                        "src/",
+                        "tests/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tomas Pospisil",
+                    "email": "pospisilt@gmail.com"
+                }
+            ],
+            "description": "An error formatter for Easy Coding Standard that exports analysis result into HTML file",
+            "keywords": [
+                "Easy Coding Standard",
+                "Error formatter",
+                "file output"
+            ],
+            "time": "2019-01-07T18:15:25+00:00"
         },
         {
             "name": "paragonie/random_compat",

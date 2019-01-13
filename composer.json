@@ -30,7 +30,8 @@
   },
   "license": "MIT",
   "require-dev": {
-    "symplify/easy-coding-standard": "^5.3"
+    "symplify/easy-coding-standard": "^5.3",
+    "noximo/easycodingstandard-fileoutput": "^0.0.1"
   },
   "scripts": {
     "check": [
