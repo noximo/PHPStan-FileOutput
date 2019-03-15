@@ -23,7 +23,7 @@
   },
   "require": {
     "php": "^7.1",
-    "phpstan/phpstan": "^0.10",
+    "phpstan/phpstan": "^0.11",
     "nette/utils": "2.5.*",
     "webmozart/path-util": "^2.3",
     "thecodingmachine/safe": "^0.1.9"
@@ -31,7 +31,7 @@
   "license": "MIT",
   "require-dev": {
     "symplify/easy-coding-standard": "^5.3",
-    "noximo/easycodingstandard-fileoutput": "^0.0.1"
+    "noximo/easycodingstandard-fileoutput": "^0.0.2"
   },
   "scripts": {
     "check": [
