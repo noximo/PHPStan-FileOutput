@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace noximo;
@@ -111,6 +112,10 @@ namespace noximo;
                         <td>
                             <?= $error[FileOutput::ERROR] ?>
                         </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><?= $error[FileOutput::IGNORE] ?></td>
                     </tr>
                 <?php endforeach ?>
             <?php endforeach ?>

@@ -1,9 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace noximo;
 
 use Nette\IOException;
+use Nette\Neon\Neon;
 use Nette\Utils\FileSystem;
 use Nette\Utils\RegexpException;
 use Nette\Utils\Strings;
@@ -14,15 +16,23 @@ use Webmozart\PathUtil\Path;
 
 class FileOutput implements ErrorFormatter
 {
+    /** @var string */
     public const ERROR = 'error';
 
+    /** @var string */
     public const LINK = 'link';
 
+    /** @var string */
     public const LINE = 'line';
 
+    /** @var string */
     public const FILES = 'files';
 
+    /** @var string */
     public const UNKNOWN = 'unknown';
+
+    /** @var string */
+    public const IGNORE = 'ignore';
 
     /** @var string */
     private $link = 'editor://open/?file=%file&line=%line';
@@ -51,7 +61,7 @@ class FileOutput implements ErrorFormatter
         $this->defaultFormatter = $defaultFormatterClass;
         $cwd = \Safe\getcwd() . DIRECTORY_SEPARATOR;
         try {
-            $outputFile = Strings::replace($outputFile, '{time}', (string)time());
+            $outputFile = Strings::replace($outputFile, '{time}', (string) time());
         } catch (RegexpException $e) {
         }
 
@@ -114,9 +124,10 @@ class FileOutput implements ErrorFormatter
                 $line = $fileSpecificError->getLine() ?? 1;
                 $link = strtr($this->link, ['%file' => $file, '%line' => $line]);
                 $output[self::FILES][$file][] = [
-                    self::ERROR => $this->formatMessage($fileSpecificError->getMessage()),
+                    self::ERROR => self::formatMessage($fileSpecificError->getMessage()),
                     self::LINK => $link,
                     self::LINE => $line,
+                    self::IGNORE => Neon::encode($fileSpecificError->getMessage()),
                 ];
             }
 
@@ -126,13 +137,12 @@ class FileOutput implements ErrorFormatter
                 });
             }
             unset($file);
-
         }
 
         FileSystem::write($this->outputFile, $this->getTable($output));
     }
 
-    private function formatMessage(string $message): string
+    private static function formatMessage(string $message): string
     {
         $words = explode(' ', $message);
         $words = array_map(function ($word) {

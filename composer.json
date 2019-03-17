@@ -26,7 +26,8 @@
     "phpstan/phpstan": "^0.11",
     "nette/utils": "2.5.*",
     "webmozart/path-util": "^2.3",
-    "thecodingmachine/safe": "^0.1.9"
+    "thecodingmachine/safe": "^0.1.9",
+    "nette/neon": "^3.0.0"
   },
   "license": "MIT",
   "require-dev": {
