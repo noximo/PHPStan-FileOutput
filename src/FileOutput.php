@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace noximo;
 
 use Nette\IOException;
-use Nette\Neon\Neon;
 use Nette\Utils\FileSystem;
 use Nette\Utils\RegexpException;
 use Nette\Utils\Strings;
@@ -61,7 +60,7 @@ class FileOutput implements ErrorFormatter
         $this->defaultFormatter = $defaultFormatterClass;
         $cwd = \Safe\getcwd() . DIRECTORY_SEPARATOR;
         try {
-            $outputFile = Strings::replace($outputFile, '{time}', (string) time());
+            $outputFile = Strings::replace($outputFile, '{time}', (string)time());
         } catch (RegexpException $e) {
         }
 
@@ -127,7 +126,7 @@ class FileOutput implements ErrorFormatter
                     self::ERROR => self::formatMessage($fileSpecificError->getMessage()),
                     self::LINK => $link,
                     self::LINE => $line,
-                    self::IGNORE => Neon::encode($fileSpecificError->getMessage()),
+                    self::IGNORE => self::formatRegex($fileSpecificError->getMessage()),
                 ];
             }
 
@@ -154,5 +153,24 @@ class FileOutput implements ErrorFormatter
         }, $words);
 
         return implode(' ', $words);
+    }
+
+    /**
+     * @param string $message
+     * @return string
+     * @throws RegexpException
+     */
+    private static function formatRegex(string $message): string
+    {
+        $quotes = "'";
+        $message = rtrim($message, '.');
+        $message = preg_quote($message, '#');
+
+        if (Strings::contains($message, "'")) {
+            $quotes = '"';
+            $message = Strings::replace($message, '/\\\\/', '\\\\\\');
+        }
+
+        return "- $quotes#" . $message . "#$quotes";
     }
 }

@@ -62,6 +62,10 @@ namespace noximo;
             background: #374d63
         }
 
+        .regex {
+            color: #00000085;
+        }
+
         #thanks {
             margin-top: 50px;
             font-size: 0.65em;
@@ -111,11 +115,9 @@ namespace noximo;
                         </td>
                         <td>
                             <?= $error[FileOutput::ERROR] ?>
+                            <br>
+                            <small class="regex"><?= $error[FileOutput::IGNORE] ?></small>
                         </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td><?= $error[FileOutput::IGNORE] ?></td>
                     </tr>
                 <?php endforeach ?>
             <?php endforeach ?>
