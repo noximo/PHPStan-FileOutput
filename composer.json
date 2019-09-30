@@ -32,7 +32,7 @@
   "license": "MIT",
   "require-dev": {
     "symplify/easy-coding-standard": "^6.1",
-    "noximo/easycodingstandard-fileoutput": "^0.0.2"
+    "noximo/easycodingstandard-fileoutput": "^0.0.4"
   },
   "scripts": {
     "check": [
