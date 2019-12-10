@@ -10,10 +10,11 @@ use Nette\Utils\RegexpException;
 use Nette\Utils\Strings;
 use PHPStan\Command\AnalysisResult;
 use PHPStan\Command\ErrorFormatter\ErrorFormatter;
-use Symfony\Component\Console\Style\OutputStyle;
+use PHPStan\Command\Output;
+use Safe\Exceptions\DirException;
 use Webmozart\PathUtil\Path;
 
-class FileOutput implements ErrorFormatter
+final class FileOutput implements ErrorFormatter
 {
     /** @var string */
     public const ERROR = 'error';
@@ -53,7 +54,7 @@ class FileOutput implements ErrorFormatter
 
     /**
      * FileOutput constructor.
-     * @throws \Safe\Exceptions\DirException
+     * @throws DirException
      */
     public function __construct(string $outputFile, ?ErrorFormatter $defaultFormatterClass = null, ?string $customTemplate = null)
     {
@@ -78,16 +79,16 @@ class FileOutput implements ErrorFormatter
      * Formats the errors and outputs them to the console.
      * @return int Error code.
      */
-    public function formatErrors(AnalysisResult $analysisResult, OutputStyle $style): int
+    public function formatErrors(AnalysisResult $analysisResult, Output $output): int
     {
         if ($this->defaultFormatter !== null) {
-            $this->defaultFormatter->formatErrors($analysisResult, $style);
+            $this->defaultFormatter->formatErrors($analysisResult, $output);
         }
         try {
             $this->generateFile($analysisResult);
-            $style->writeln('Note: Analysis outputted into file ' . $this->outputFile . '.');
+            $output->getStyle()->note('Note: Analysis outputted into file ' . $this->outputFile . '.');
         } catch (IOException $e) {
-            $style->error('Analysis could not be outputted into file. ' . $e->getMessage());
+            $output->getStyle()->error('Analysis could not be outputted into file. ' . $e->getMessage());
         }
 
         return $analysisResult->hasErrors() ? 1 : 0;
@@ -95,11 +96,14 @@ class FileOutput implements ErrorFormatter
 
     /**
      * @param mixed[] $data
+     * @return string
      */
     public function getTable(array $data): string
     {
-        ob_start(function (): void {
-        });
+        ob_start(
+            static function (): void {
+            }
+        );
         require $this->template;
 
         $output = ob_get_clean();
@@ -131,9 +135,12 @@ class FileOutput implements ErrorFormatter
             }
 
             foreach ($output[self::FILES] as &$file) {
-                usort($file, function ($a, $b) {
-                    return -1 * ($a[self::LINE] <=> $b[self::LINE]);
-                });
+                usort(
+                    $file,
+                    static function ($a, $b) {
+                        return -1 * ($a[self::LINE] <=> $b[self::LINE]);
+                    }
+                );
             }
             unset($file);
         }
@@ -144,13 +151,16 @@ class FileOutput implements ErrorFormatter
     private static function formatMessage(string $message): string
     {
         $words = explode(' ', $message);
-        $words = array_map(function ($word) {
-            if (Strings::match($word, '/[^a-zA-Z,.]|(string)|(bool)|(boolean)|(int)|(integer)|(float)/')) {
-                $word = '<b>' . $word . '</b>';
-            }
+        $words = array_map(
+            static function ($word) {
+                if (Strings::match($word, '/[^a-zA-Z,.]|(string)|(bool)|(boolean)|(int)|(integer)|(float)/')) {
+                    $word = '<b>' . $word . '</b>';
+                }
 
-            return $word;
-        }, $words);
+                return $word;
+            },
+            $words
+        );
 
         return implode(' ', $words);
     }
@@ -158,7 +168,6 @@ class FileOutput implements ErrorFormatter
     /**
      * @param string $message
      * @return string
-     * @throws RegexpException
      */
     private static function formatRegex(string $message): string
     {
