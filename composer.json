@@ -23,16 +23,15 @@
   },
   "require": {
     "php": "^7.3",
-    "phpstan/phpstan": "^0.11.16",
-    "nette/utils": "^3.0",
+    "phpstan/phpstan": "^0.12",
+    "nette/utils": "^3.0.2",
     "webmozart/path-util": "^2.3.0",
-    "thecodingmachine/safe": "^0.1",
+    "thecodingmachine/safe": "^0.1.16",
     "nette/neon": "^3.0.0"
   },
   "license": "MIT",
   "require-dev": {
-    "symplify/easy-coding-standard": "^6.1",
-    "noximo/easycodingstandard-fileoutput": "^0.0.4"
+    "symplify/easy-coding-standard": "^7.1.0"
   },
   "scripts": {
     "check": [
