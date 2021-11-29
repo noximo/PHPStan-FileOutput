@@ -23,25 +23,18 @@
   },
   "require": {
     "php": "^7.3",
-    "phpstan/phpstan": "^0.12.7",
+    "phpstan/phpstan": ">=0.12.7 <=1.2.0",
     "nette/utils": "^3.1.0",
     "webmozart/path-util": "^2.3.0",
     "thecodingmachine/safe": "^1.0.3",
     "nette/neon": "^3.1.0"
   },
   "license": "MIT",
-  "require-dev": {
-    "symplify/easy-coding-standard": "^7.1.0"
-  },
   "scripts": {
     "check": [
-      "@check-cs",
       "@phpstan"
     ],
-    "ecs": "ecs check src",
-    "ecs-fix": "ecs check src --fix",
     "phpstan": "phpstan analyse src --level max --error-format=fileoutput",
-    "phpstan-test": "phpstan analyse src tests --level max --error-format=fileoutput --no-progress",
-    "check-cs-test": "ecs check tests "
+    "phpstan-test": "phpstan analyse src tests --level max --error-format=fileoutput --no-progress"
   }
 }
